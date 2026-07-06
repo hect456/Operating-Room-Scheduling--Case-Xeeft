@@ -107,38 +107,38 @@ because a triple that fails them never gets a variable.
 
 **C7: room capacity, exact, declared over the room interval:**
 
-$$
+```math
 \mathtt{AddNoOverlap}\!\bigl(\{\,\text{iv}_{cdr} : d,\,r\text{ fixed}\}\bigr)
 \qquad \forall\,d,\,r
-$$
+```
 
 A room runs one case at a time, and the next case cannot start until the previous one's
-cleaning buffer has elapsed. That buffer is already inside $\text{iv}_{cdr}$'s length.
+cleaning buffer has elapsed. That buffer is already inside $`\text{iv}_{cdr}`$'s length.
 
 **C8: surgeon, exact non-overlap on the surgeon's own interval, plus a daily cap:**
 
-$$
+```math
 \mathtt{AddNoOverlap}\!\bigl(\{\,\text{sgiv}_{cdr} : \text{surgeon}(c)=h,\;d\text{ fixed}\}\bigr)
 \qquad \forall\,h,\,d
-$$
+```
 
-$$
+```math
 \sum_{\substack{c:\,\text{surgeon}(c)=h \\ r}} t_c^{op}\,\text{pr}_{cdr}
 \;\le\; k_{hd}
 \qquad \forall\,h,\,d
-$$
+```
 
-Declared over $\text{sgiv}_{cdr}$ (size $t_c^{op}$), not the room's interval (see §2).
+Declared over $`\text{sgiv}_{cdr}`$ (size $`t_c^{op}`$), not the room's interval (see §2).
 The minutes cap is kept alongside the `NoOverlap` because non-overlap alone bounds
 concurrency, not total hours worked.
 
 **C9: surgeon weekly time limit:**
 
-$$
+```math
 \sum_{\substack{c:\,\text{surgeon}(c)=h \\ d,\,r}} t_c^{op}\,\text{pr}_{cdr}
 \;\le\; k_h
 \qquad \forall\,h
-$$
+```
 
 **C10: shared equipment, exact concurrency:**
 
