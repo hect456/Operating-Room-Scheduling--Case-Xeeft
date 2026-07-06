@@ -8,11 +8,12 @@ comment next to it in the solver, so the two read side by side.
 
 ## 1. Sets and parameters
 
-Unchanged from FORMULATION.md §5: $C, D, R, H, E$ and every $t_c^{op}, t_c^{clean},
-t_c^{tot}, k_{dr}, k_{hd}, k_h, p_c, dd_c, \mu_p, w_c, \alpha, u_{ce}, \kappa_{ed}$, plus
-the bed-pool parameters $\rho(c)$, $\text{los}_c$, $\beta_\rho$, $\pi^{\text{ovf}}$. These last four
-only exist in this model; a day-bucket formulation has no value that means "day of
-surgery" for a multi-day stay to start counting from (FORMULATION.md, Appendix A.3).
+Unchanged from FORMULATION.md §5: $`C, D, R, H, E`$ and every
+$`t_c^{op}, t_c^{clean}, t_c^{tot}, k_{dr}, k_{hd}, k_h, p_c, dd_c, \mu_p, w_c, \alpha, u_{ce}, \kappa_{ed}`$,
+plus the bed-pool parameters $`\rho(c)`$, $`\text{los}_c`$, $`\beta_\rho`$, $`\pi^{\text{ovf}}`$.
+These last four only exist in this model; a day-bucket formulation has no value
+that means "day of surgery" for a multi-day stay to start counting from
+(FORMULATION.md, Appendix A.3).
 
 ## 2. Decision variables
 
