@@ -604,29 +604,31 @@ deliverable. Implemented in `src/solvers/milp_baseline_solver.py`; runnable via
 `--solver milp-cbc` (bundled, no install needed), `--solver milp-gurobi`, or
 `--solver milp-cplex` (both need a license OR-Tools/gurobipy can see).
 
-Same sets and parameters as §5, minus the CP-only ones ($\pi^{\text{ovf}}$, $\rho(c)$,
-$\text{los}_c$, $\beta_\rho$, beds aren't expressible in this formulation at all, see
+Same sets and parameters as §5, minus the CP-only ones ($`\pi^{\text{ovf}}`$, $`\rho(c)`$,
+$`\text{los}_c`$, $`\beta_\rho`$, beds aren't expressible in this formulation at all, see
 A.4).
 
 ### A.1 Decision variables
 
-$$x_{cdr}\in\{0,1\}\ \forall c,d\in D_c,r \qquad z_c\in[0,1]\ \forall c: p_c\ne4$$
+```math
+x_{cdr}\in\{0,1\}\ \forall c,d\in D_c,r \qquad z_c\in[0,1]\ \forall c: p_c\ne4
+```
 
-$z_c$ is relaxed to a continuous bound rather than declared binary; C3 below forces it
-to $\{0,1\}$ at the optimum anyway, and the relaxation is free since nothing else in the
-formulation benefits from declaring it binary up front. $x_{cdr}$ exists only for
+$`z_c`$ is relaxed to a continuous bound rather than declared binary; C3 below forces it
+to $`\{0,1\}`$ at the optimum anyway, and the relaxation is free since nothing else in the
+formulation benefits from declaring it binary up front. $`x_{cdr}`$ exists only for
 triples surviving the same C4–C6 eligibility filter as the primary model.
 
 ### A.2 Objective
 
-$$
+```math
 \min \sum_{c:dd_c\ge0}\sum_{d,r}[dd_c+d]\,x_{cdr}
 + \sum_{c:dd_c<0}\sum_{d,r}[dd_c+\alpha d]\,x_{cdr}
 + \sum_{c:p_c\ne4} w_c\,z_c
-$$
+```
 
-Identical in shape to §7's Terms 1–3, over $x_{cdr}/z_c$ instead of
-$\text{pr}_{cdr}/u_c$, evaluated by the same `penalty.py` function every backend shares.
+Identical in shape to §7's Terms 1–3, over $`x_{cdr}/z_c`$ instead of
+$`\text{pr}_{cdr}/u_c`$, evaluated by the same `penalty.py` function every backend shares.
 
 ### A.3 Constraints
 
@@ -634,7 +636,10 @@ C1–C6 and C9 are unchanged from §9. C7 and C10 are where this formulation div
 the primary model:
 
 **C7, room capacity as a sum:**
-$$\sum_c t_c^{tot}\,x_{cdr} \le k_{dr} \qquad \forall d,r$$
+
+```math
+\sum_c t_c^{tot}\,x_{cdr} \le k_{dr} \qquad \forall d,r
+```
 
 For a single room this is equivalent to exact non-overlap, any set of non-colliding
 durations can always be packed sequentially, which is why C7 alone doesn't cost this
@@ -642,12 +647,18 @@ formulation anything by itself.
 
 **C8, surgeon, daily minutes only (no non-overlap variable exists in a MILP without a
 big-M reformulation, §3):**
-$$\sum_{c:\,\text{surgeon}(c)=h}\sum_r t_c^{op}\,x_{cdr} \le k_{hd} \qquad \forall h,d$$
+
+```math
+\sum_{c:\,\text{surgeon}(c)=h}\sum_r t_c^{op}\,x_{cdr} \le k_{hd} \qquad \forall h,d
+```
 
 **C10, shared equipment, a day-level headcount:**
-$$\sum_{c:u_{ce}=1}\sum_r x_{cdr} \le \kappa_{ed} \qquad \forall e,d$$
 
-This counts how many equipment-$e$ cases land on a day, not whether their clock times
+```math
+\sum_{c:u_{ce}=1}\sum_r x_{cdr} \le \kappa_{ed} \qquad \forall e,d
+```
+
+This counts how many equipment-$`e`$ cases land on a day, not whether their clock times
 actually overlap, the single largest source of the objective gap measured in
 RESULTS.md.
 
@@ -671,8 +682,8 @@ project. See B.4 for the honest comparison.
 ### B.1 What's different
 
 CP-SAT buckets cleaning time by the case's own duration (§6.1): every candidate's room
-interval is sized $t_c^{tot} = t_c^{op}+t_c^{clean}$, so turnover is a property of one
-case alone. CP Optimizer instead sizes the interval at $t_c^{op}$ alone and charges
+interval is sized $`t_c^{tot} = t_c^{op}+t_c^{clean}`$, so turnover is a property of one
+case alone. CP Optimizer instead sizes the interval at $`t_c^{op}`$ alone and charges
 turnover as a transition cost between whichever two cases end up adjacent in a room's
 chosen sequence, via a `sequence_var` plus a transition matrix on `no_overlap`:
 
@@ -689,10 +700,10 @@ sequence variable does.
 
 ### B.2 Sets, variables, constraints
 
-Same $C,D,R,H,E$ and shared parameters as the primary model, plus a service index
-$\sigma(c)$ and a transition table $\tau_{\sigma\sigma'}$. Per case, one master interval
-`task_c` (mandatory iff $p_c=4$) tied via `alternative()` to one candidate interval per
-eligible $(d,r)$, sized $t_c^{op}$ only. Room turnover (C7) becomes a `sequence_var` per
+Same $`C,D,R,H,E`$ and shared parameters as the primary model, plus a service index
+$`\sigma(c)`$ and a transition table $`\tau_{\sigma\sigma'}`$. Per case, one master interval
+`task_c` (mandatory iff $`p_c=4`$) tied via `alternative()` to one candidate interval per
+eligible $`(d,r)`$, sized $`t_c^{op}`$ only. Room turnover (C7) becomes a `sequence_var` per
 room-day with `no_overlap(seq, transition_matrix)`; surgeon non-overlap (C8) uses the
 same idiom without a transition matrix, since a surgeon doesn't need "cleaning time"
 between cases the way a room does. Equipment (C10) and beds (C11) use the same additive
