@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+*.lp
+*.mps
+results/*.json
+*.log
+.claude/
+# Binary/generated artifacts that don't belong in source control
+*.docx
+*.pptx
+*.pdf
+*.tex
+*.aux
+*.toc
+*.nav
+*.snm
+*.out
+*.synctex.gz
+~$*

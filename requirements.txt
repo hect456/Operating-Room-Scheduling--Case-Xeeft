@@ -1,0 +1,17 @@
+# Core: OR-Tools provides both CP-SAT (sat.python.cp_model, the primary model)
+# and the comparison MILP's CBC/SCIP backends (linear_solver) — no external
+# solver binary needed for any of that.
+ortools>=9.9
+
+# Core: Gantt-style schedule plot (--plot flag).
+matplotlib>=3.8
+
+# Optional: commercial backends for the comparison MILP (src/solvers/milp_baseline_solver.py).
+# Gurobi needs a license; OR-Tools' MPSolver also recognizes CPLEX if your
+# OR-Tools build was linked against a licensed CPLEX install.
+# gurobipy
+
+# Optional: IBM ILOG CP Optimizer backend (src/solvers/cp_optimizer_solver.py,
+# FORMULATION.md Appendix B). Needs a CP Optimizer engine (local CPLEX Studio
+# or DOcplexcloud) plus a license — see that file's module docstring.
+# docplex
