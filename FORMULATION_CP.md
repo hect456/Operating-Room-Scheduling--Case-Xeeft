@@ -208,13 +208,12 @@ crossing the boundary discouraged but not infeasible, an instance-level policy c
 
 ## 5. Why C7–C11 don't need an explicit channeling constraint between room and surgeon
 
-C7, C10, and C11 are declared over the room interval $\text{iv}_{cdr}$; C8 is declared
-over the surgeon interval $\text{sgiv}_{cdr}$. Both share the same `start` variable, so
+C7, C10, and C11 are declared over the room interval $`\text{iv}_{cdr}`$; C8 is declared
+over the surgeon interval $`\text{sgiv}_{cdr}`$. Both share the same `start` variable, so
 CP-SAT propagates "this case's start is pinned by its room's schedule" into "...which
 also constrains its surgeon's schedule," and vice versa, without an explicit constraint
 linking the two. It falls directly out of sharing one `start` per candidate slot, with
 two different `end`s for the two different resources that slot touches.
-
 ## 6. Search
 
 CP-SAT runs with its default parallel portfolio (`num_search_workers`, capped at
