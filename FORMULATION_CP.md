@@ -166,7 +166,7 @@ $$
 
 The bed interval's presence literal differs by case type:
 
-$$
+```math
 \text{bed}_c = \begin{cases}
   \mathtt{NewOptionalIntervalVar}\!\bigl(
     \text{dayof}_c,\;\text{los}_c,\;\text{dayof}_c+\text{los}_c,\;1-u_c
@@ -175,7 +175,7 @@ $$
     \text{dayof}_c,\;\text{los}_c,\;\text{dayof}_c+\text{los}_c
   \bigr) & p_c = 4
 \end{cases}
-$$
+```
 
 Priority-4 cases have no $u_c$ (they are always scheduled by C2), so their bed interval
 is mandatory rather than conditional. For all other cases, the presence literal $1-u_c$
