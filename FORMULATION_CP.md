@@ -142,15 +142,14 @@ $$
 
 **C10: shared equipment, exact concurrency:**
 
-$$
+```math
 \mathtt{AddCumulative}\!\bigl(
   \{\,\text{iv}_{cdr} : u_{ce}=1,\;d\text{ fixed}\},\;
   \text{demands}=1,\;
   \text{capacity}=\kappa_{ed}
 \bigr)
 \qquad \forall\,e,\,d
-$$
-
+```
 Declared over the room interval, since the equipment sits in the room for the full
 $t_c^{tot}$, cleaning included, unlike the surgeon who leaves early. This checks literal
 time overlap rather than a day-count, which is the constraint FORMULATION.md §3 argues
