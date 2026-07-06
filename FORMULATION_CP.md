@@ -17,37 +17,39 @@ that means "day of surgery" for a multi-day stay to start counting from
 
 ## 2. Decision variables
 
-For every $(c,d,r)$ that survives the eligibility filter (room-service roster C4,
+For every $`(c,d,r)`$ that survives the eligibility filter (room-service roster C4,
 ambulatory-only C5, pediatric block C6, surgeon availability):
 
-$$\text{pr}_{cdr}\in\{0,1\} \qquad \text{start}_{cdr}\in[0,\,k_{dr}]$$
+```math
+\text{pr}_{cdr}\in\{0,1\} \qquad \text{start}_{cdr}\in[0,\,k_{dr}]
+```
 
 Two interval variables share that same start time but represent two different resources,
 each with its own end:
 
-$$
+```math
 \text{iv}_{cdr}
 = \mathtt{NewOptionalIntervalVar}\!\bigl(
     \text{start}_{cdr},\;t_c^{tot},\;\text{end}_{cdr},\;\text{pr}_{cdr}
   \bigr)
 \quad \text{room occupancy, size } t_c^{tot}
-$$
+```
 
-$$
+```math
 \text{sgiv}_{cdr}
 = \mathtt{NewOptionalIntervalVar}\!\bigl(
     \text{start}_{cdr},\;t_c^{op},\;\text{sgend}_{cdr},\;\text{pr}_{cdr}
   \bigr)
 \quad \text{surgeon time, size } t_c^{op}
-$$
+```
 
-The room's interval runs through the cleaning buffer ($t_c^{tot}=t_c^{op}+t_c^{clean}$);
+The room's interval runs through the cleaning buffer ($`t_c^{tot}=t_c^{op}+t_c^{clean}`$);
 the surgeon's ends as soon as the operation does. They have to be two separate
 variables, not one shared between C7 and C8: a surgeon is free to scrub into a different
 room the moment their own case ends, even while support staff are still cleaning the
 first room, and collapsing both checks onto the room's longer interval would wrongly
 forbid that. Both intervals are *present* (i.e., actually constrain whatever resource they touch)
-exactly when $\text{pr}_{cdr}=1$, which is what lets `NoOverlap` and `Cumulative`
+exactly when $`\text{pr}_{cdr}=1`$, which is what lets `NoOverlap` and `Cumulative`
 reason correctly over every candidate slot a case could occupy without the solver first
 deciding which candidates are real.
 
